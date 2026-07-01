@@ -7,30 +7,19 @@ from database import get_db
 def get_user_by_email(email):
     db = get_db()
     cursor = db.cursor()
-
-    cursor.execute(
-        "SELECT * FROM users WHERE email = %s",
-        (email,)
-    )
-
+    cursor.execute("SELECT * FROM users WHERE email = %s",(email,))
     user = cursor.fetchone()
-
     db.close()
-
     return user
 
 
 def create_user(name, email, password):
     db = get_db()
     cursor = db.cursor()
-
-    cursor.execute(
-        """
+    cursor.execute("""
         INSERT INTO users (name, email, password)
         VALUES (%s, %s, %s)
-        """,
-        (name, email, password)
-    )
+        """,(name, email, password))
 
     db.commit()
     db.close()
@@ -43,54 +32,33 @@ def create_user(name, email, password):
 def get_all_users():
     db = get_db()
     cursor = db.cursor()
-
-    cursor.execute(
-        "SELECT * FROM contacts ORDER BY id DESC"
-    )
-
+    cursor.execute("SELECT * FROM contacts ORDER BY id DESC")
     users = cursor.fetchall()
-
     db.close()
-
     return users
-
 
 def get_user(user_id):
     db = get_db()
     cursor = db.cursor()
-
-    cursor.execute(
-        "SELECT * FROM contacts WHERE id = %s",
-        (user_id,)
-    )
-
+    cursor.execute("SELECT * FROM contacts WHERE id = %s", (user_id,))
     user = cursor.fetchone()
-
     db.close()
-
     return user
 
 
 def add_user(name, email):
     db = get_db()
     cursor = db.cursor()
-
-    cursor.execute(
-        """
+    cursor.execute("""
         INSERT INTO contacts (name, email)
         VALUES (%s, %s)
-        """,
-        (name, email)
-    )
-
+        """, (name, email))
     db.commit()
     db.close()
-
 
 def update_user(user_id, name, email):
     db = get_db()
     cursor = db.cursor()
-
     cursor.execute(
         """
         UPDATE contacts
@@ -98,21 +66,14 @@ def update_user(user_id, name, email):
             email = %s
         WHERE id = %s
         """,
-        (name, email, user_id)
-    )
+        (name, email, user_id))
 
     db.commit()
     db.close()
 
-
 def delete_user(user_id):
     db = get_db()
     cursor = db.cursor()
-
-    cursor.execute(
-        "DELETE FROM contacts WHERE id = %s",
-        (user_id,)
-    )
-
+    cursor.execute("DELETE FROM contacts WHERE id = %s",(user_id,))
     db.commit()
     db.close()
